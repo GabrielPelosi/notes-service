@@ -12,6 +12,6 @@ import java.util.List;
 @Repository
 public interface NoteRepository extends JpaRepository<Note,Long> {
 
-    Page<Note> findAllByNoteSenderContainingOrderByCreatedDate(String name, Pageable pageable);
+    Page<Note> findAllByNoteSenderContainingOrderByCreatedDateTime(String name, Pageable pageable);
 
 }

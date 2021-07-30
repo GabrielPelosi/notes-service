@@ -2,12 +2,12 @@ package com.pelosi.notes.config.audit;
 
 import org.springframework.data.domain.AuditorAware;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
-public class AuditorConfig implements AuditorAware<LocalDate> {
+public class AuditorConfig implements AuditorAware<LocalDateTime> {
     @Override
-    public Optional<LocalDate> getCurrentAuditor() {
-        return Optional.of(LocalDate.now());
+    public Optional<LocalDateTime> getCurrentAuditor() {
+        return Optional.of(LocalDateTime.now());
     }
 }

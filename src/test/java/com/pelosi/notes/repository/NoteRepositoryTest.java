@@ -87,7 +87,7 @@ class NoteRepositoryTest {
 
         //Act
         Pageable pageable = PageRequest.of(0, 8);
-        Page<Note> notes = noteRepository.findAllByNoteSenderContainingOrderByCreatedDate("Gaab",pageable);
+        Page<Note> notes = noteRepository.findAllByNoteSenderContainingOrderByCreatedDateTime("Gaab",pageable);
 
 
         //Assert

@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -34,7 +35,7 @@ public class NoteServiceImpl implements NoteService {
                 .noteSender(note.getNoteSender())
                 .noteDescription(note.getNoteDescription())
                 .id(note.getId())
-                .createdDate(note.getCreatedDate())
+                .createdDate(note.getCreatedDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))
                 .build()).orElseThrow(() -> new NoteNotFoundExecption("Nota nao encontrada."));
     }
 
@@ -51,7 +52,7 @@ public class NoteServiceImpl implements NoteService {
                 .noteDescription(savedNote.getNoteDescription())
                 .noteSender(note.getNoteSender())
                 .noteRecipient(note.getNoteRecipient())
-                .createdDate(note.getCreatedDate())
+                .createdDate(note.getCreatedDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))
                 .build();
     }
 
@@ -64,21 +65,21 @@ public class NoteServiceImpl implements NoteService {
                 .noteRecipient(note.getNoteRecipient())
                 .noteDescription(note.getNoteDescription())
                 .id(note.getId())
-                .createdDate(note.getCreatedDate())
+                .createdDate(note.getCreatedDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))
                 .build());
     }
 
     @Override
     public Page<NoteResponse> findAllNotesByName(String name, Pageable pageable) {
         return noteRepository
-                .findAllByNoteSenderContainingOrderByCreatedDate(name, pageable)
+                .findAllByNoteSenderContainingOrderByCreatedDateTime(name, pageable)
                 .map(note -> NoteResponse
                         .builder()
                         .noteSender(note.getNoteSender())
                         .noteRecipient(note.getNoteRecipient())
                         .noteDescription(note.getNoteDescription())
                         .id(note.getId())
-                        .createdDate(note.getCreatedDate())
+                        .createdDate(note.getCreatedDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))
                         .build()
                 );
     }

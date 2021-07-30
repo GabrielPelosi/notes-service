@@ -22,6 +22,6 @@ public class NoteResponse {
     private String noteSender;
     private String noteRecipient;
 
-    private LocalDate createdDate;
+    private String createdDate;
 
 }

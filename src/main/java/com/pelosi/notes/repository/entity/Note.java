@@ -13,6 +13,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 
 @Table(name = "tb_notes")
@@ -50,5 +51,5 @@ public class Note {
 
     @CreatedDate
     @Column(nullable = false,updatable = false)
-    private LocalDate createdDate;
+    private LocalDateTime createdDateTime;
 }
