@@ -8,6 +8,9 @@ import com.pelosi.notes.repository.entity.Note;
 import com.pelosi.notes.service.NoteService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -27,6 +30,7 @@ public class NoteServiceImpl implements NoteService {
 
 
     @Transactional(readOnly = true)
+    @Cacheable(value = "note-cache", key = "#id")
     @Override
     public NoteResponse findNoteById(Long id) {
         return noteRepository.findById(id).map(note -> NoteResponse
@@ -39,6 +43,7 @@ public class NoteServiceImpl implements NoteService {
                 .build()).orElseThrow(() -> new NoteNotFoundExecption("Nota nao encontrada."));
     }
 
+    @CachePut(value = "note-cache")
     @Override
     public NoteResponse createNewNote(NoteRequest noteRequest) {
         Note note = Note.builder()
@@ -57,6 +62,8 @@ public class NoteServiceImpl implements NoteService {
     }
 
     @Transactional(readOnly = true)
+    @Cacheable(value = "note-cache", key = "#pageable.pageNumber")
+    @CacheEvict(value = "note-cache", key = "#pageable.pageNumber",beforeInvocation = true)
     @Override
     public Page<NoteResponse> findAllNotes(Pageable pageable) {
         return noteRepository.findAll(pageable).map(note -> NoteResponse
@@ -84,6 +91,7 @@ public class NoteServiceImpl implements NoteService {
                 );
     }
 
+    @CacheEvict(value = "note-cache",key = "#id",beforeInvocation = true)
     @Override
     public Optional<Boolean> deleteNoteById(Long id) {
         return noteRepository.findById(id).map(note -> {
