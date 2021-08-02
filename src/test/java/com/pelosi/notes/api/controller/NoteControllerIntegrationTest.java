@@ -94,13 +94,4 @@ class NoteControllerIntegrationTest {
 
     }
 
-    @Test
-    void removeNote_ReturnFalseNotAuthUser_WheFailed() {
-
-    }
-
-    @Test
-    void removeNote_ReturnTrueAuthUser_WheSuccess() {
-
-    }
 }

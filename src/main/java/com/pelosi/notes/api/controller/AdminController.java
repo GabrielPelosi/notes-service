@@ -6,15 +6,12 @@ import com.pelosi.notes.exception.InvalidCredentialsException;
 import com.pelosi.notes.model.AdminLoginRequest;
 import com.pelosi.notes.model.AdminLoginResponse;
 import com.pelosi.notes.service.NoteService;
-import com.pelosi.notes.service.serviceImpl.UserDetailsServiceImpl;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

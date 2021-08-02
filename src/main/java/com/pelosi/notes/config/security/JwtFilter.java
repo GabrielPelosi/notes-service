@@ -1,6 +1,5 @@
 package com.pelosi.notes.config.security;
 
-import com.pelosi.notes.service.serviceImpl.UserDetailsServiceImpl;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,10 +20,10 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class JwtFilter extends OncePerRequestFilter {
 
+    private final static StaticUserDetailsImpl staticUserDetails = new StaticUserDetailsImpl();
 
     private final @NonNull JwtUtil jwtUtil;
 
-    private final @NonNull UserDetailsServiceImpl userService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
@@ -39,7 +38,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
             if (userName != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-                UserDetails userDetails = userService.loadUserByUsername(userName);
+                UserDetails userDetails =  staticUserDetails;
 
                 if (jwtUtil.validateToken(token, userDetails)) {
 
