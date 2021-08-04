@@ -100,4 +100,18 @@ public class NoteServiceImpl implements NoteService {
             }
         );
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    @Cacheable(value = "note-cache")
+    @CacheEvict(value = "note-cache", allEntries = true,beforeInvocation = true)
+    public List<NoteResponse> getAllNotes() {
+        return noteRepository.findAll().stream().map(note ->
+                NoteResponse.builder().noteSender(note.getNoteSender())
+                .noteRecipient(note.getNoteRecipient())
+                .noteDescription(note.getNoteDescription())
+                .createdDate(note.getCreatedDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))
+                .id(note.getId()).build())
+                .collect(Collectors.toList());
+    }
 }

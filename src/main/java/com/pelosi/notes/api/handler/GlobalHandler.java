@@ -2,6 +2,7 @@ package com.pelosi.notes.api.handler;
 
 import com.pelosi.notes.exception.InvalidCredentialsException;
 import com.pelosi.notes.exception.NoteNotFoundExecption;
+import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -28,5 +29,10 @@ public class GlobalHandler {
     @ExceptionHandler(InvalidCredentialsException.class)
     public ResponseEntity<?> handleInvalidCredentialsException (InvalidCredentialsException ex){
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(ExpiredJwtException.class)
+    public ResponseEntity<?> handleExpiredJwtException (ExpiredJwtException ex){
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(ex.getMessage());
     }
 }

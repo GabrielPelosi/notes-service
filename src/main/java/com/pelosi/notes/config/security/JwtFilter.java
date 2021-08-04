@@ -1,5 +1,6 @@
 package com.pelosi.notes.config.security;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -31,6 +32,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
         String token = null;
         String userName = null;
+        try {
             if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
                 token = authorizationHeader.substring(7);
                 userName = jwtUtil.extractUsername(token);
@@ -38,7 +40,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
             if (userName != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-                UserDetails userDetails =  staticUserDetails;
+                UserDetails userDetails = staticUserDetails;
 
                 if (jwtUtil.validateToken(token, userDetails)) {
 
@@ -49,6 +51,9 @@ public class JwtFilter extends OncePerRequestFilter {
                     SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
                 }
             }
+        }catch(ExpiredJwtException ex){
+            httpServletResponse.setStatus(403);
+        }
 
 
         filterChain.doFilter(httpServletRequest, httpServletResponse);

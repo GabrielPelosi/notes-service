@@ -31,6 +31,11 @@ public class AdminController {
                 .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body(Boolean.FALSE));
     }
 
+    @GetMapping(value = "/notes")
+    public ResponseEntity<?> getAllNotes(){
+        return ResponseEntity.ok(noteService.getAllNotes());
+    }
+
 
     @PostMapping(value = "/login")
     public ResponseEntity<AdminLoginResponse> adminLogin(@RequestBody AdminLoginRequest adminLoginRequest){
